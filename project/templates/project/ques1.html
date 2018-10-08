@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+    <title>Ques1</title>
+    <style>
+        #container{
+            width:70%;
+            margin: 0px auto;
+        }
+    </style>
+</head>
+<body>
+<form>
+  <input type="button" value="Go back!" onclick="history.back()">
+</form>
+<div id="container"></div>
+<script src="https://code.highcharts.com/highcharts.src.js"></script>
+<script>
+   Highcharts.chart('container', {
+       chart: {
+           type: 'column'
+       },
+       title: {
+           text: 'Matches Played Per Seasons'
+       },
+       xAxis: {
+           title: {
+               text: 'Seasons'
+           },
+           categories: [{% for season in seasons %}'{{ season.season }}'{% if not forloop.last %}, {% endif %}{% endfor %}],
+       },
+       yAxis: {
+
+           title: {
+               text: 'Number of matches'
+           }
+       },
+       series: [{
+           showInLegend: false,
+           name: 'seasons',
+           data: [
+               {% for season in seasons %}{{ season.match_count }}{% if not forloop.last %}, {% endif %}{% endfor %}
+           ]
+       }]
+   });
+</script>
+</body>
+</html>

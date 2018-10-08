@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+    <title>Ques1</title>
+    <style>
+        #container{
+            width:70%;
+            margin: 0px auto;
+        }
+    </style>
+</head>
+<body>
+<form>
+  <input type="button" value="Go back!" onclick="history.back()">
+</form>
+<div id="container"></div>
+<script src="https://code.highcharts.com/highcharts.src.js"></script>
+<script>
+   Highcharts.chart('container', {
+    chart: {
+        plotBackgroundColor: null,
+        plotBorderWidth: null,
+        plotShadow: false,
+        type: 'pie'
+    },
+    title: {
+        text: 'Toss Winning to Match Winning Chances'
+    },
+    tooltip: {
+        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+    },
+    plotOptions: {
+        pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+                enabled: true,
+                format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                style: {
+                    color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                }
+            }
+        }
+    },
+    series: [{
+        name: 'Winning Chances',
+        colorByPoint: true,
+        data: [
+            {
+            name: 'Toss winner is match winner',
+            y: {{ wining.win }},
+            sliced: false,
+            selected: true
+        },
+            {
+            name: 'Toss winner is not match winner',
+            y: {{ wining.loss }},
+            sliced: false,
+            selected: true
+        }
+        ]
+    }]
+});
+</script>
+</body>
+</html>

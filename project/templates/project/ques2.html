@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+    <title>Ques1</title>
+    <style>
+        #container{
+            width:70%;
+            margin: 0px auto;
+        }
+    </style>
+</head>
+<body>
+<form>
+  <input type="button" value="Go back!" onclick="history.back()">
+</form>
+<div id="container"></div>
+<script src="https://code.highcharts.com/highcharts.src.js"></script>
+<script>
+Highcharts.chart('container', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: 'Matches won by teams across diffrent seasons'
+    },
+    xAxis: {
+        title:{
+            text:"Seasons"
+        },
+        categories: [{% for season in seasons %}'{{ season }}'{% if not forloop.last %}, {% endif %}{% endfor %}],
+    },
+    yAxis: {
+        min: 0,
+        title: {
+            text: 'Matches Played'
+        },
+        stackLabels: {
+            enabled: true,
+            style: {
+                fontWeight: 'normal',
+                color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+            }
+        }
+    },
+    legend: {
+        align: 'right',
+        layout: 'vertical',
+        verticalAlign: 'middle',
+        floating: false,
+        backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+        borderColor: '#CCC',
+        borderWidth: 1,
+        shadow: false
+    },
+    tooltip: {
+        headerFormat: '<b>{point.x}</b><br/>',
+        pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+    },
+    plotOptions: {
+        column: {
+            stacking: 'normal',
+            dataLabels: {
+                enabled: true,
+                color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
+            }
+        }
+    },
+    series: [
+        {% for team,record in match_won_per_teams_per_season.items %}{
+        name: '{{ team }}',
+        data: {{ record }}
+    },
+        {% endfor %}
+    ]
+});
+</script>
+</body>
+</html>
+
+
